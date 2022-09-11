@@ -1,5 +1,5 @@
 # cosmgo
-A library written in Golang help developers more convenience interacting with CosmWasm Smart Contracts in Cosmos ecosystem
+The library written in Golang makes it easier for developers to interact with CosmWasm Smart Contracts
 
 ## I. Install library
 `go get github.com/LeTrongDat/cosmgo`
