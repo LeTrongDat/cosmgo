@@ -51,7 +51,7 @@ if err != nil {
 fmt.Println("response", rsp.TxResponse)
 ```
 
-III. Constants Example
+## III. Constants Example
 ```
 const (
 	// chain config
