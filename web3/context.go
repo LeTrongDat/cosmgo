@@ -10,6 +10,7 @@ import (
 // Context implements a typical context created in SDK modules for transaction
 // handling and queries.
 type Context struct {
+	API            string
 	FromAddress    sdk.AccAddress
 	GRPCClient     *grpc.ClientConn
 	ChainID        string
@@ -74,5 +75,10 @@ func (ctx Context) WithBech32Prefix(bech32Prefix string) Context {
 
 func (ctx Context) WithTxBuilder(txBuilder client.TxBuilder) Context {
 	ctx.TxBuilder = txBuilder
+	return ctx
+}
+
+func (ctx Context) WithAPI(api string) Context {
+	ctx.API = api
 	return ctx
 }

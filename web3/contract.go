@@ -84,7 +84,11 @@ func setMsgs(ctx *Context, msg *MsgExecuteContract) error {
 	(*txBuilder).SetFeeAmount(msg.FeeAmount)
 	(*txBuilder).SetGasLimit(msg.GasLimit)
 
-	err := (*txBuilder).SetMsgs(msg)
+	err := (*txBuilder).SetMsgs(&wasmtypes.MsgExecuteContract{
+		Sender:   msg.Sender,
+		Contract: msg.Contract,
+		Msg:      msg.Msg,
+	})
 	if err != nil {
 		return err
 	}
@@ -98,7 +102,7 @@ func setSignaturesRound1(ctx *Context, msg *MsgExecuteContract) error {
 	var sigsV2 []signing.SignatureV2
 	for _, account := range Accounts {
 		sigV2 := signing.SignatureV2{
-			PubKey: account.PrivKey.PubKey(),
+			PubKey: cryptotypes.PrivKey(&account.PrivKey).PubKey(),
 			Data: &signing.SingleSignatureData{
 				SignMode:  signMode,
 				Signature: nil,
@@ -170,13 +174,6 @@ func broadcastTx(ctx *Context, msg *MsgExecuteContract) (*tx.BroadcastTxResponse
 	if err != nil {
 		return nil, err
 	}
+	Accounts[0].WithNonce(Accounts[0].Nonce + 1)
 	return grpcRes, nil
-}
-
-func NewFeeAmount(denom string, amount int64) sdk.Coins {
-	return sdk.NewCoins(sdk.NewInt64Coin(denom, amount))
-}
-
-func NewGasLimit(gasLimit uint64) uint64 {
-	return gasLimit
 }

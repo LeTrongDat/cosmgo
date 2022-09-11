@@ -3,6 +3,7 @@ package util
 import (
 	"github.com/cosmos/cosmos-sdk/client"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/tx/signing"
 	authsigning "github.com/cosmos/cosmos-sdk/x/auth/signing"
 )
@@ -39,4 +40,12 @@ func SignWithPrivKey(
 	}
 
 	return sigV2, nil
+}
+
+func NewFeeAmount(denom string, amount int64) sdk.Coins {
+	return sdk.NewCoins(sdk.NewInt64Coin(denom, amount))
+}
+
+func NewGasLimit(gasLimit uint64) uint64 {
+	return gasLimit
 }
